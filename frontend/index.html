@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FlowCast AI — Smart City Traffic Intelligence & Prediction Operations Center</title>
+  <meta name="description" content="Commercial transportation management and corridor intelligence system for Delhi Northline Corridor. Real-time observational telemetry and HistGB machine learning inference.">
+
+  <!-- Inter & JetBrains Mono Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Human-Crafted Institutional Stylesheet -->
+  <link rel="stylesheet" href="css/style.css?v=20261031_05">
+</head>
+<body>
+
+  <!-- Top Operational Control Bar -->
+  <header class="top-control-bar">
+    <div class="brand-section">
+      <div class="brand-logo-mark">FC</div>
+      <div class="brand-title-group">
+        <span class="brand-name">FlowCast AI</span>
+        <span class="brand-sub">Traffic Operations Center</span>
+      </div>
+      <div class="brand-status-chip">
+        <span class="status-dot-active" id="header-status-indicator"></span>
+        <span id="header-status-text">ENGINE ONLINE</span>
+        <span style="color:var(--text-muted); margin:0 2px;">|</span>
+        <span style="font-family:var(--font-mono); font-weight:600;">DELHI NORTHLINE (25 SENSORS)</span>
+      </div>
+    </div>
+
+    <!-- Central Control Toolbar (Temporal Scrubber & Diurnal Presets) -->
+    <div class="toolbar-controls">
+      <!-- Quick Presets -->
+      <div class="toolbar-group">
+        <span class="toolbar-label">Preset:</span>
+        <button class="btn preset-btn" data-date="2025-05-20" data-time="08:30" title="Morning Rush Hour">08:30 Peak</button>
+        <button class="btn preset-btn" data-date="2025-05-20" data-time="14:00" title="Midday Free-flow">14:00 Off-Peak</button>
+        <button class="btn preset-btn" data-date="2025-05-20" data-time="18:30" title="Evening Commute">18:30 Rush</button>
+        <button class="btn preset-btn" data-date="2025-05-20" data-time="02:00" title="Night Minimum">02:00 Night</button>
+      </div>
+
+      <div style="width:1px; height:18px; background-color:var(--border-subtle);"></div>
+
+      <!-- Scrubber Pickers -->
+      <div class="toolbar-group">
+        <input type="date" id="timeline-date-picker" value="2025-05-20" min="2025-01-01" max="2025-05-31" class="input-control" title="Operational Date">
+        <select id="timeline-time-picker" class="input-control" title="Observation Interval">
+          <option value="08:00">08:00</option>
+          <option value="08:30" selected>08:30</option>
+          <option value="09:00">09:00</option>
+          <option value="09:30">09:30</option>
+          <option value="10:00">10:00</option>
+          <option value="10:30">10:30</option>
+          <option value="12:00">12:00</option>
+          <option value="14:00">14:00</option>
+          <option value="16:00">16:00</option>
+          <option value="17:30">17:30</option>
+          <option value="18:00">18:00</option>
+          <option value="18:30">18:30</option>
+          <option value="19:00">19:00</option>
+          <option value="20:00">20:00</option>
+          <option value="21:30">21:30</option>
+          <option value="02:00">02:00</option>
+          <option value="05:30">05:30</option>
+        </select>
+        <button id="btn-simulation-play" class="btn" title="Auto-advance through 30m diurnal steps">
+          ▶ Replay
+        </button>
+        <button id="btn-refresh-data" class="btn" title="Refresh Live Inference Data">
+          ⟲ Refresh
+        </button>
+      </div>
+
+      <div style="width:1px; height:18px; background-color:var(--border-subtle);"></div>
+
+      <!-- Live Clock & Theme Controls -->
+      <div class="toolbar-group">
+        <span class="clock-display" id="hud-live-clock">--:--:-- IST</span>
+        <button id="btn-toggle-theme" class="btn" title="Toggle Light / Dark Mode">◐ Mode</button>
+        <button id="btn-toggle-fullscreen" class="btn" title="Full-screen Workspace">⛶</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Institutional Tab Strip Navigation -->
+  <nav class="nav-tab-strip" aria-label="Operations Modules">
+    <div class="nav-tab-item active" data-tab="overview" id="nav-btn-overview">
+      <span class="tab-index">01</span>
+      <span>Command Center</span>
+    </div>
+    <div class="nav-tab-item" data-tab="map" id="nav-btn-map">
+      <span class="tab-index">02</span>
+      <span>GIS Tactical Map</span>
+    </div>
+    <div class="nav-tab-item" data-tab="forecast" id="nav-btn-forecast">
+      <span class="tab-index">03</span>
+      <span>Volume Forecast</span>
+    </div>
+    <div class="nav-tab-item" data-tab="congestion" id="nav-btn-congestion">
+      <span class="tab-index">04</span>
+      <span>Congestion Analysis</span>
+    </div>
+    <div class="nav-tab-item" data-tab="traveltime" id="nav-btn-traveltime">
+      <span class="tab-index">05</span>
+      <span>Travel-Time Engine</span>
+    </div>
+    <div class="nav-tab-item" data-tab="accident" id="nav-btn-accident">
+      <span class="tab-index">06</span>
+      <span>Safety & Hazard Friction</span>
+    </div>
+    <div class="nav-tab-item" data-tab="performance" id="nav-btn-performance">
+      <span class="tab-index">07</span>
+      <span>Model Studio & XAI</span>
+    </div>
+    <div class="nav-tab-item" data-tab="historical" id="nav-btn-historical">
+      <span class="tab-index">08</span>
+      <span>Historical Archive</span>
+    </div>
+  </nav>
+
+  <!-- Global Workspace Viewport -->
+  <main class="workspace-container">
+
+    <!-- =====================================================================
+         SECTION 1: COMMAND CENTER (WORKSTATION OVERVIEW)
+         ===================================================================== -->
+    <section id="section-overview" class="tab-section active">
+      <div class="section-meta-header">
+        <div class="section-title-group">
+          <h1 class="section-main-title">Corridor Operations Command Center</h1>
+          <span class="section-description">Northline Arterial Highway Network Telemetry & Real-Time ML Inference</span>
+        </div>
+        <div class="section-timestamp-tag" id="active-timestamp-display">
+          2025-05-20 08:30 IST (Historical Baseline)
+        </div>
+      </div>
+
+      <!-- Special Calendar & Weather Alert Banner (Conditional) -->
+      <div id="overview-calendar-banner" class="notice-box notice-warning" style="display:none;"></div>
+
+      <!-- Bloomberg-Style High-Density KPI Ribbon -->
+      <div class="kpi-ribbon">
+        <!-- 1. Total Volume -->
+        <div class="kpi-cell">
+          <div class="kpi-cell-header">
+            <span class="kpi-cell-label">Total Volume</span>
+            <span style="font-size:10px; color:var(--text-muted);">Loop Sum</span>
+          </div>
+          <div class="kpi-cell-value-row">
+            <span class="kpi-cell-value" id="kpi-total-volume">--</span>
+            <span class="kpi-cell-unit">veh/30m</span>
+          </div>
+          <div class="kpi-cell-sub">
+            <span>Avg: <strong id="kpi-avg-volume" style="color:var(--text-primary); font-family:var(--font-mono);">--</strong> veh/seg</span>
+          </div>
+        </div>
+
+        <!-- 2. AI Next Forecast -->
+        <div class="kpi-cell">
+          <div class="kpi-cell-header">
+            <span class="kpi-cell-label">Next Volume (+30m)</span>
+            <span style="font-size:10px; color:var(--accent-blue); font-weight:600;">HistGB</span>
+          </div>
+          <div class="kpi-cell-value-row">
+            <span class="kpi-cell-value" id="kpi-next-volume" style="color:var(--accent-blue);">--</span>
+            <span class="kpi-cell-unit">veh/30m</span>
+          </div>
+          <div class="kpi-cell-sub">
+            <span class="delta-badge delta-neutral" id="kpi-volume-delta">--</span>
+            <span style="color:var(--text-muted);">vs current</span>
+          </div>
+        </div>
+
+        <!-- 3. Mean Speed -->
+        <div class="kpi-cell">
+          <div class="kpi-cell-header">
+            <span class="kpi-cell-label">Corridor Speed</span>
+            <span style="font-size:10px; color:var(--text-muted);">Radar</span>
+          </div>
+          <div class="kpi-cell-value-row">
+            <span class="kpi-cell-value" id="kpi-avg-speed">--</span>
+            <span class="kpi-cell-unit">km/h</span>
+          </div>
+          <div class="kpi-cell-sub">
+            <span>Target: <strong>50.0 km/h</strong></span>
+          </div>
+        </div>
+
+        <!-- 4. Dominant Congestion -->
+        <div class="kpi-cell">
+          <div class="kpi-cell-header">
+            <span class="kpi-cell-label">Congestion Status</span>
+            <span style="font-size:10px; color:var(--text-muted);">4-Class</span>
+          </div>
+          <div class="kpi-cell-value-row" style="margin-top:2px;">
+            <span class="status-pill status-moderate" id="kpi-dominant-congestion">Moderate</span>
+          </div>
+          <div class="kpi-cell-sub">
+            <span>Corridor Mode Tier</span>
+          </div>
+        </div>
+
+        <!-- 5. Mean Travel Time -->
+        <div class="kpi-cell">
+          <div class="kpi-cell-header">
+            <span class="kpi-cell-label">Mean Traversal</span>
+            <span style="font-size:10px; color:var(--text-muted);">Segment</span>
+          </div>
+          <div class="kpi-cell-value-row">
+            <span class="kpi-cell-value" id="kpi-avg-travel-time">--</span>
+          </div>
+          <div class="kpi-cell-sub">
+            <span>Free-flow: <strong>4.8 min</strong></span>
+          </div>
+        </div>
+
+        <!-- 6. Monitored Segments -->
+        <div class="kpi-cell">
+          <div class="kpi-cell-header">
+            <span class="kpi-cell-label">Active Sensors</span>
+            <span style="font-size:10px; color:var(--traffic-freeflow); font-weight:700;">100%</span>
+          </div>
+          <div class="kpi-cell-value-row">
+            <span class="kpi-cell-value" id="kpi-segments-count">25 / 25</span>
+          </div>
+          <div class="kpi-cell-sub">
+            <span>Inductive Loops Online</span>
+          </div>
+        </div>
+
+        <!-- 7. Accident Risk Hazard -->
+        <div class="kpi-cell">
+          <div class="kpi-cell-header">
+            <span class="kpi-cell-label">Hazard Index</span>
+            <span style="font-size:10px; color:var(--traffic-moderate); font-weight:600;">Platt Calib</span>
+          </div>
+          <div class="kpi-cell-value-row">
+            <span class="kpi-cell-value" id="kpi-accident-risk">1.62%</span>
+          </div>
+          <div class="kpi-cell-sub">
+            <span>Base prevalence: <strong>0.96%</strong></span>
+          </div>
+        </div>
+
+        <!-- 8. Model System Health -->
+        <div class="kpi-cell">
+          <div class="kpi-cell-header">
+            <span class="kpi-cell-label">Model Accuracy</span>
+            <span style="font-size:10px; color:var(--accent-navy); font-weight:600;">Validated</span>
+          </div>
+          <div class="kpi-cell-value-row">
+            <span class="kpi-cell-value" id="kpi-system-health">95.8% R²</span>
+          </div>
+          <div class="kpi-cell-sub">
+            <span>Holdout RMSE: <strong>58.8 veh</strong></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Workstation Layout: Map (68%) + Operational Telemetry (32%) -->
+      <div class="grid-workstation">
+        <!-- Centerpiece GIS Map Container -->
+        <div class="panel" style="margin-bottom:0;">
+          <div class="panel-header">
+            <span class="panel-title">🗺️ Geographic Corridor Map (25 Northline Arterial Links)</span>
+            <div style="font-size:11px; color:var(--text-muted);" id="header-weather-info">
+              Weather: WS-NORTH Observations
+            </div>
+          </div>
+          <div id="map-container" style="height:520px;">
+            <!-- Rendered by NorthlineCorridorMap class -->
+          </div>
+        </div>
+
+        <!-- Right Operational Intelligence Column -->
+        <div style="display:flex; flex-direction:column; gap:14px;">
+          <!-- Diurnal Commute Status & Summary -->
+          <div class="panel" style="margin-bottom:0;">
+            <div class="panel-header">
+              <span class="panel-title">Operational Context</span>
+            </div>
+            <div class="panel-body" style="padding:10px 12px;">
+              <div id="overview-peak-status-box" style="margin-bottom:8px;"></div>
+              <div style="font-size:12px; color:var(--text-secondary); line-height:1.4;" id="overview-condition-summary">
+                Loading corridor condition summary...
+              </div>
+            </div>
+          </div>
+
+          <!-- Top 5 Corridor Bottlenecks -->
+          <div class="panel" style="margin-bottom:0; flex:1;">
+            <div class="panel-header">
+              <span class="panel-title">Corridor Bottlenecks (Top V/C Load)</span>
+              <span style="font-size:10px; color:var(--text-muted);">Click to Inspect</span>
+            </div>
+            <div class="panel-body" style="padding:4px 12px;" id="overview-bottleneck-list">
+              <!-- Dynamically populated via app.js -->
+            </div>
+          </div>
+
+          <!-- Multi-Horizon 3-Hour Volume Spline -->
+          <div class="panel" style="margin-bottom:0;">
+            <div class="panel-header">
+              <span class="panel-title">Corridor Volume Trajectory (Past 3h → +30m)</span>
+            </div>
+            <div class="panel-body" style="padding:8px 12px;">
+              <div style="height:150px; width:100%;">
+                <canvas id="overview-trend-canvas"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         SECTION 2: GIS TACTICAL MAP (DEDICATED WORKSPACE)
+         ===================================================================== -->
+    <section id="section-map" class="tab-section">
+      <div class="section-meta-header">
+        <div class="section-title-group">
+          <h2 class="section-main-title">GIS Arterial Highway Network Map</h2>
+          <span class="section-description">High-precision 2D cartography for the 25 Delhi Northline sensor nodes</span>
+        </div>
+        <div class="section-timestamp-tag">Bounding Box: Lat 28.56°N–28.69°N, Lon 77.10°E–77.31°E</div>
+      </div>
+
+      <div class="panel" style="margin-bottom:0;">
+        <div id="map-dedicated-container" style="height:620px;">
+          <!-- Map mounts seamlessly here or shares container -->
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         SECTION 3: VOLUME FORECASTING
+         ===================================================================== -->
+    <section id="section-forecast" class="tab-section">
+      <div class="section-meta-header">
+        <div class="section-title-group">
+          <h2 class="section-main-title">Multi-Segment Volume Forecasting</h2>
+          <span class="section-description">HistGradientBoosting Regressor (+30 Minute Ahead Predictions)</span>
+        </div>
+        <div class="section-timestamp-tag">150 Trees • Non-Negative Constrained • Lag-Audited</div>
+      </div>
+
+      <div class="grid-workstation" style="margin-bottom:14px;">
+        <div class="panel" style="margin-bottom:0;">
+          <div class="panel-header">
+            <span class="panel-title">Segment Volume Comparison (Current Telemetry vs. +30m Predicted)</span>
+            <span style="font-size:11px; color:var(--text-muted);">First 8 Arterial Corridors</span>
+          </div>
+          <div class="panel-body">
+            <div style="height:220px; width:100%;">
+              <canvas id="forecast-comparison-canvas"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-bottom:0; display:flex; flex-direction:column; justify-content:center;">
+          <div class="panel-header">
+            <span class="panel-title">Forecasting Summary</span>
+          </div>
+          <div class="panel-body">
+            <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; font-weight:600;">Corridor Mean Next Volume</div>
+            <div style="font-family:var(--font-mono); font-size:24px; font-weight:700; color:var(--accent-blue); margin:4px 0;" id="forecast-avg-pred">--</div>
+            <div style="font-size:11px; color:var(--text-secondary); margin-bottom:12px;">
+              Growth Factor: <strong id="forecast-growth-pct" class="delta-badge delta-neutral">--</strong>
+            </div>
+            <div style="border-top:1px solid var(--border-subtle); padding-top:10px; font-size:11px; color:var(--text-muted);">
+              Active Model: <strong id="forecast-model-name" style="color:var(--text-primary);">HistGradientBoostingRegressor</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Complete 25-Road Tabular Grid -->
+      <div class="table-wrapper">
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 12px; border-bottom:1px solid var(--border-subtle); background-color:var(--bg-surface-subtle);">
+          <span style="font-weight:700; font-size:12px; text-transform:uppercase; color:var(--text-primary);">
+            All 25 Road Segment Forecasts
+          </span>
+          <select id="forecast-road-filter" class="input-control" style="width:200px;">
+            <option value="">All 25 Road Segments</option>
+          </select>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Road ID</th>
+              <th>Segment Name</th>
+              <th class="num-cell">Current Volume</th>
+              <th class="num-cell">Forecast (+30m)</th>
+              <th class="num-cell">Ground Truth</th>
+              <th class="num-cell">Volume Delta</th>
+              <th class="num-cell">V/C Ratio</th>
+            </tr>
+          </thead>
+          <tbody id="forecast-roads-tbody">
+            <tr><td colspan="7" style="text-align:center; padding:1.5rem; color:var(--text-muted);">Loading forecasting telemetry...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         SECTION 4: CONGESTION CLASSIFICATION
+         ===================================================================== -->
+    <section id="section-congestion" class="tab-section">
+      <div class="section-meta-header">
+        <div class="section-title-group">
+          <h2 class="section-main-title">Road-Level Congestion Classification</h2>
+          <span class="section-description">4-Tier Status Classifier (Free-flow, Moderate, Heavy, Severe)</span>
+        </div>
+        <div class="section-timestamp-tag">87.1% Benchmark Accuracy • Macro-F1: 0.757</div>
+      </div>
+
+      <div class="grid-2col" style="margin-bottom:14px;">
+        <div class="panel" style="margin-bottom:0;">
+          <div class="panel-header">
+            <span class="panel-title">4-Class Congestion Breakdown</span>
+          </div>
+          <div class="panel-body">
+            <div style="height:210px; width:100%;">
+              <canvas id="congestion-donut-canvas"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-bottom:0;">
+          <div class="panel-header">
+            <span class="panel-title">Engineering Classification Criteria</span>
+          </div>
+          <div class="panel-body">
+            <div style="display:flex; flex-direction:column; gap:8px; font-size:12px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-subtle); padding-bottom:6px;">
+                <span class="status-pill status-freeflow">Free-flow</span>
+                <span style="font-family:var(--font-mono); color:var(--text-secondary);">V/C &lt; 0.50 • Speed &gt; 45 km/h</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-subtle); padding-bottom:6px;">
+                <span class="status-pill status-moderate">Moderate</span>
+                <span style="font-family:var(--font-mono); color:var(--text-secondary);">0.50 ≤ V/C &lt; 0.75 • Speed 30–45 km/h</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-subtle); padding-bottom:6px;">
+                <span class="status-pill status-heavy">Heavy</span>
+                <span style="font-family:var(--font-mono); color:var(--text-secondary);">0.75 ≤ V/C &lt; 0.90 • Speed 18–30 km/h</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span class="status-pill status-severe">Severe</span>
+                <span style="font-family:var(--font-mono); color:var(--text-secondary);">V/C ≥ 0.90 • Speed &lt; 18 km/h</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Road ID</th>
+              <th>Road Name</th>
+              <th>Current Level</th>
+              <th>Predicted Level</th>
+              <th>Actual (+30m)</th>
+              <th class="num-cell">Velocity</th>
+              <th class="num-cell">Occupancy</th>
+              <th class="num-cell">V/C Ratio</th>
+            </tr>
+          </thead>
+          <tbody id="congestion-roads-tbody">
+            <tr><td colspan="8" style="text-align:center; padding:1.5rem; color:var(--text-muted);">Loading congestion status...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         SECTION 5: TRAVEL-TIME INTELLIGENCE
+         ===================================================================== -->
+    <section id="section-traveltime" class="tab-section">
+      <div class="section-meta-header">
+        <div class="section-title-group">
+          <h2 class="section-main-title">Travel-Time Intelligence Engine</h2>
+          <span class="section-description">Segment Traversal Durations and Corridor Congestion Delay Penalties</span>
+        </div>
+        <div class="section-timestamp-tag">HistGB Regressor • Evaluated on 35,336 Observations</div>
+      </div>
+
+      <div class="grid-2col" style="margin-bottom:14px;">
+        <div class="panel" style="margin-bottom:0;">
+          <div class="panel-header">
+            <span class="panel-title">Highest Traversal Durations (Delay Penalty Ranking)</span>
+          </div>
+          <div class="panel-body">
+            <div style="height:210px; width:100%;">
+              <canvas id="travel-time-canvas"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-bottom:0; display:flex; flex-direction:column; justify-content:center;">
+          <div class="panel-header">
+            <span class="panel-title">Corridor Traversal Summary</span>
+          </div>
+          <div class="panel-body">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+              <div>
+                <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; font-weight:600;">Current Mean</div>
+                <div style="font-family:var(--font-mono); font-size:24px; font-weight:700; color:var(--text-primary);" id="tt-avg-curr">--</div>
+              </div>
+              <div>
+                <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; font-weight:600;">Predicted Mean (+30m)</div>
+                <div style="font-family:var(--font-mono); font-size:24px; font-weight:700; color:var(--accent-blue);" id="tt-avg-pred">--</div>
+              </div>
+            </div>
+            <div style="margin-top:14px; font-size:11px; color:var(--text-secondary); border-top:1px solid var(--border-subtle); padding-top:8px;">
+              Baseline free-flow traversal: <strong>4.8 min</strong>. High variance indicates intersection delay.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Road ID</th>
+              <th>Road Name</th>
+              <th class="num-cell">Current Duration</th>
+              <th class="num-cell">Forecast (+30m)</th>
+              <th class="num-cell">Ground Truth</th>
+              <th class="num-cell">Delay Penalty</th>
+              <th class="num-cell">Velocity</th>
+            </tr>
+          </thead>
+          <tbody id="travel-time-tbody">
+            <tr><td colspan="7" style="text-align:center; padding:1.5rem; color:var(--text-muted);">Loading travel time records...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         SECTION 6: CALIBRATED ACCIDENT RISK (SURROGATE SAFETY MEASURE)
+         ===================================================================== -->
+    <section id="section-accident" class="tab-section">
+      <div class="section-meta-header">
+        <div class="section-title-group">
+          <h2 class="section-main-title">Experimental Safety Conflict Risk (Research Prototype)</h2>
+          <span class="section-description">Calibrated Logistic Platt Model — Statistical Research Only (Base Prevalence: 0.96%)</span>
+        </div>
+        <div class="section-timestamp-tag">Brier Score: 0.00952 • ROC-AUC: 0.6185 • PR-AUC: 0.0199</div>
+      </div>
+
+      <!-- Institutional Safety Notice -->
+      <div class="notice-box notice-warning">
+        <div>
+          <div class="notice-title">⚠️ STRICTLY EXPERIMENTAL RESEARCH PROTOTYPE — NOT FOR OPERATIONAL LIFE-SAFETY DISPATCH</div>
+          <div class="notice-body">
+            This exploratory model estimates statistical friction probabilities using occupancy surges, speed variance, and capacity load. Because crash events are extremely rare (~0.96% incident prevalence), this model exhibits severe statistical limitations: Precision is only <strong>1.82%</strong> at a 1.0% threshold (meaning ~98.2% of flagged intervals are false alarms), and Recall is <strong>46.18%</strong> (missing over half of incidents). ROC-AUC is <strong>0.6185</strong> and PR-AUC is <strong>0.0199</strong>. DO NOT use this model for emergency vehicle dispatch, life-safety automation, or operational response decisions.
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2col" style="margin-bottom:14px;">
+        <div class="panel" style="margin-bottom:0;">
+          <div class="panel-header">
+            <span class="panel-title">Experimental Detection Threshold</span>
+          </div>
+          <div class="panel-body">
+            <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
+              <input type="range" id="accident-threshold-slider" min="0.005" max="0.030" step="0.001" value="0.010" style="flex:1; cursor:pointer;">
+              <span id="threshold-val-display" style="font-family:var(--font-mono); font-weight:700; color:var(--accent-navy); font-size:14px; width:55px;">1.0%</span>
+            </div>
+            <div style="font-size:11px; color:var(--text-secondary); line-height:1.4;">
+              At <strong>1.0%</strong> threshold: Precision = <strong>1.82%</strong>, Recall = <strong>46.18%</strong>, Specificity = <strong>75.68%</strong>. Demonstrates high false-alarm rate under 106:1 class skew.
+            </div>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-bottom:0; display:flex; flex-direction:column; justify-content:center;">
+          <div class="panel-header">
+            <span class="panel-title">Corridor Statistical Status</span>
+          </div>
+          <div class="panel-body">
+            <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; font-weight:600;">Segments Exceeding Experimental Threshold</div>
+            <div style="font-family:var(--font-mono); font-size:24px; font-weight:700; color:var(--traffic-moderate); margin:4px 0;" id="acc-elevated-count">--</div>
+            <div style="font-size:11px; color:var(--text-muted);">
+              Brier: <span id="acc-metric-brier" style="font-family:var(--font-mono);">0.00952</span> | ROC-AUC: <span id="acc-metric-roc" style="font-family:var(--font-mono);">0.6185</span> | PR-AUC: <span id="acc-metric-prauc" style="font-family:var(--font-mono);">0.0199</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Road ID</th>
+              <th>Road Name</th>
+              <th class="num-cell">Calibrated Prob</th>
+              <th>Classification</th>
+              <th>Experimental Advisory</th>
+              <th class="num-cell">Occupancy</th>
+              <th class="num-cell">Velocity</th>
+            </tr>
+          </thead>
+          <tbody id="accident-roads-tbody">
+            <tr><td colspan="7" style="text-align:center; padding:1.5rem; color:var(--text-muted);">Loading safety hazard data...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         SECTION 7: MODEL STUDIO & EXPLAINABILITY (XAI)
+         ===================================================================== -->
+    <section id="section-performance" class="tab-section">
+      <div class="section-meta-header">
+        <div class="section-title-group">
+          <h2 class="section-main-title">Model Governance & Empirical Studio</h2>
+          <span class="section-description">Transparent validation benchmarks, confusion matrices, and Random Forest feature importance</span>
+        </div>
+        <div class="section-timestamp-tag">Holdout Partition: 9 May – 31 May 2025 (35,336 Observations)</div>
+      </div>
+
+      <div class="grid-2col" style="margin-bottom:14px;">
+        <!-- Regression Benchmark -->
+        <div class="table-wrapper">
+          <div style="padding:8px 10px; background-color:var(--bg-surface-subtle); border-bottom:1px solid var(--border-subtle); font-weight:700; font-size:11px; text-transform:uppercase;">
+            Volume Regression Benchmark (Holdout Set)
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Model Architecture</th>
+                <th class="num-cell">RMSE</th>
+                <th class="num-cell">MAE</th>
+                <th class="num-cell">R²</th>
+                <th class="num-cell">MAPE</th>
+              </tr>
+            </thead>
+            <tbody id="model-perf-vol-tbody">
+              <tr><td colspan="5" style="text-align:center; padding:1rem; color:var(--text-muted);">Loading regression benchmarks...</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Classification Benchmark -->
+        <div class="table-wrapper">
+          <div style="padding:8px 10px; background-color:var(--bg-surface-subtle); border-bottom:1px solid var(--border-subtle); font-weight:700; font-size:11px; text-transform:uppercase;">
+            Congestion Classification Benchmark
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Classifier Architecture</th>
+                <th class="num-cell">Accuracy</th>
+                <th class="num-cell">Macro F1</th>
+                <th class="num-cell">Weighted F1</th>
+              </tr>
+            </thead>
+            <tbody id="model-perf-cong-tbody">
+              <tr><td colspan="4" style="text-align:center; padding:1rem; color:var(--text-muted);">Loading classification benchmarks...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Primary Confusion Matrix -->
+      <div class="panel" style="margin-bottom:14px;">
+        <div class="panel-header">
+          <span class="panel-title">Primary Confusion Matrix (HistGB 4-Class Classifier)</span>
+          <span style="font-size:11px; color:var(--text-muted);">Evaluated on 35,336 Holdout Observations</span>
+        </div>
+        <div class="panel-body">
+          <div id="cm-congestion-container">
+            <!-- Rendered via Charts.renderConfusionMatrix -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature Importance / Explainability -->
+      <div class="grid-2col" style="margin-bottom:14px;">
+        <div class="panel" style="margin-bottom:0;">
+          <div class="panel-header">
+            <span class="panel-title">Volume Predictor Feature Drivers (Random Forest)</span>
+            <span style="font-size:10px; color:var(--text-muted);">Gini Impurity</span>
+          </div>
+          <div class="panel-body" id="feat-imp-vol-container" style="display:flex; flex-direction:column; gap:8px;"></div>
+        </div>
+
+        <div class="panel" style="margin-bottom:0;">
+          <div class="panel-header">
+            <span class="panel-title">Accident Friction Drivers (Random Forest)</span>
+            <span style="font-size:10px; color:var(--text-muted);">Relative Weight</span>
+          </div>
+          <div class="panel-body" id="feat-imp-acc-container" style="display:flex; flex-direction:column; gap:8px;"></div>
+        </div>
+      </div>
+
+      <!-- Key Empirical Findings -->
+      <div class="panel" style="margin-bottom:0;">
+        <div class="panel-header">
+          <span class="panel-title">Independent Validation Governance Findings</span>
+        </div>
+        <div class="panel-body" id="model-takeaways-container" style="display:flex; flex-direction:column; gap:6px;"></div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         SECTION 8: HISTORICAL SENSOR ARCHIVE
+         ===================================================================== -->
+    <section id="section-historical" class="tab-section">
+      <div class="section-meta-header">
+        <div class="section-title-group">
+          <h2 class="section-main-title">Historical Sensor Log Archive</h2>
+          <span class="section-description">Query Verified Observational Telemetry across the 176,676 Northline Sensor Records</span>
+        </div>
+        <div class="section-timestamp-tag">Temporal Bounds: 2025-01-01 to 2025-05-31</div>
+      </div>
+
+      <div class="panel" style="margin-bottom:14px;">
+        <div class="panel-body" style="padding:10px 12px;">
+          <div style="display:flex; flex-wrap:wrap; gap:10px; align-items:flex-end;">
+            <div>
+              <label class="toolbar-label" style="display:block; margin-bottom:3px;">Date (YYYY-MM-DD)</label>
+              <input type="date" id="hist-date-picker" value="2025-05-20" min="2025-01-01" max="2025-05-31" class="input-control">
+            </div>
+
+            <div>
+              <label class="toolbar-label" style="display:block; margin-bottom:3px;">Time (HH:MM)</label>
+              <input type="text" id="hist-time-picker" value="08:30" class="input-control" style="width:85px;">
+            </div>
+
+            <div>
+              <label class="toolbar-label" style="display:block; margin-bottom:3px;">Road Segment</label>
+              <select id="hist-road-filter" class="input-control" style="width:200px;">
+                <option value="">All 25 Segments</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="toolbar-label" style="display:block; margin-bottom:3px;">Limit</label>
+              <select id="hist-limit-select" class="input-control" style="width:75px;">
+                <option value="25">25</option>
+                <option value="50" selected>50</option>
+                <option value="100">100</option>
+              </select>
+            </div>
+
+            <button id="btn-query-historical" class="btn btn-primary">🔍 Query Archive</button>
+            <button id="btn-export-csv" class="btn">📥 Export CSV</button>
+            <button id="btn-export-pdf" class="btn">📄 Export PDF</button>
+          </div>
+
+          <div id="hist-error-msg" style="display:none; color:var(--traffic-severe); font-size:11px; margin-top:6px;"></div>
+          <div id="hist-result-count" style="font-size:11px; color:var(--text-muted); margin-top:6px;"></div>
+        </div>
+      </div>
+
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Timestamp</th>
+              <th>Road ID</th>
+              <th>Road Name</th>
+              <th class="num-cell">Volume</th>
+              <th class="num-cell">Target Next (+30m)</th>
+              <th>Congestion</th>
+              <th>Next Congestion</th>
+              <th class="num-cell">Travel Time</th>
+              <th class="num-cell">Velocity</th>
+              <th>Weather</th>
+            </tr>
+          </thead>
+          <tbody id="hist-results-tbody">
+            <tr><td colspan="10" style="text-align:center; padding:1.5rem; color:var(--text-muted);">Click "Query Archive" to fetch historical logs.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Application Scripts -->
+  <script src="js/api.js?v=20261031_08"></script>
+  <script src="js/map.js?v=20261031_08"></script>
+  <script src="js/charts.js?v=20261031_08"></script>
+  <script src="js/app.js?v=20261031_08"></script>
+</body>
+</html>

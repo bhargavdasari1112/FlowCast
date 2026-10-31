@@ -1,0 +1,252 @@
+{
+  "traffic_volume": {
+    "Linear Regression (NumPy GD)": {
+      "mae": 80.38,
+      "rmse": 108.34,
+      "mape_pct": 23.53,
+      "r2": 0.8588
+    },
+    "Random Forest": {
+      "mae": 42.385,
+      "rmse": 62.31,
+      "mape_pct": 10.23,
+      "r2": 0.9533
+    },
+    "Gradient Boosting (HistGB)": {
+      "mae": 40.291,
+      "rmse": 58.799,
+      "mape_pct": 9.68,
+      "r2": 0.9584
+    },
+    "PyTorch GRU Sequence Model": {
+      "mae": 43.382,
+      "rmse": 64.191,
+      "mape_pct": 10.34,
+      "r2": 0.9504
+    }
+  },
+  "congestion": {
+    "Persistence Baseline": {
+      "accuracy": 0.7761,
+      "precision_macro": 0.6114,
+      "recall_macro": 0.612,
+      "f1_macro": 0.6117,
+      "f1_weighted": 0.7763,
+      "confusion_matrix": [
+        [
+          14628,
+          13,
+          1268,
+          0
+        ],
+        [
+          22,
+          1050,
+          858,
+          679
+        ],
+        [
+          1234,
+          894,
+          4129,
+          145
+        ],
+        [
+          0,
+          668,
+          153,
+          761
+        ]
+      ]
+    },
+    "Majority Class Baseline": {
+      "accuracy": 0.6003,
+      "precision_macro": 0.1501,
+      "recall_macro": 0.25,
+      "f1_macro": 0.1876,
+      "f1_weighted": 0.4504,
+      "confusion_matrix": [
+        [
+          15909,
+          0,
+          0,
+          0
+        ],
+        [
+          2609,
+          0,
+          0,
+          0
+        ],
+        [
+          6402,
+          0,
+          0,
+          0
+        ],
+        [
+          1582,
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    "Random Forest Classifier": {
+      "accuracy": 0.8662,
+      "precision_macro": 0.7681,
+      "recall_macro": 0.75,
+      "f1_macro": 0.7564,
+      "f1_weighted": 0.8664,
+      "confusion_matrix": [
+        [
+          15106,
+          1,
+          802,
+          0
+        ],
+        [
+          1,
+          1739,
+          534,
+          335
+        ],
+        [
+          690,
+          489,
+          5210,
+          13
+        ],
+        [
+          0,
+          669,
+          11,
+          902
+        ]
+      ]
+    },
+    "Gradient Boosting (HistGB)": {
+      "accuracy": 0.8711,
+      "precision_macro": 0.7623,
+      "recall_macro": 0.7546,
+      "f1_macro": 0.7574,
+      "f1_weighted": 0.8717,
+      "confusion_matrix": [
+        [
+          15123,
+          0,
+          786,
+          0
+        ],
+        [
+          0,
+          1655,
+          540,
+          414
+        ],
+        [
+          528,
+          491,
+          5366,
+          17
+        ],
+        [
+          0,
+          629,
+          11,
+          942
+        ]
+      ]
+    }
+  },
+  "travel_time": {
+    "Linear Regression": {
+      "mae": 1.259,
+      "rmse": 2.007,
+      "mape_pct": 42.32,
+      "r2": 0.4139
+    },
+    "Random Forest": {
+      "mae": 0.786,
+      "rmse": 1.426,
+      "mape_pct": 25.14,
+      "r2": 0.7042
+    },
+    "Gradient Boosting (HistGB)": {
+      "mae": 0.45,
+      "rmse": 1.087,
+      "mape_pct": 9.86,
+      "r2": 0.8281
+    }
+  },
+  "accident_risk": {
+    "Platt Calibrated Logistic (Val)": {
+      "roc_auc": 0.6185,
+      "pr_auc": 0.0199,
+      "brier_score": 0.00952,
+      "recall_at_1pct_threshold": 0.4618,
+      "specificity_at_1pct_threshold": 0.7568,
+      "precision_at_1pct_threshold": 0.0182
+    },
+    "Logistic Regression (balanced)": {
+      "roc_auc": 0.6224,
+      "pr_auc": 0.0206,
+      "precision": 0.0147,
+      "recall": 0.5462,
+      "f1_score": 0.0287,
+      "brier_score": 0.25794,
+      "positive_count": 260,
+      "negative_count": 26242,
+      "confusion_matrix": [
+        [
+          16756,
+          9486
+        ],
+        [
+          118,
+          142
+        ]
+      ]
+    },
+    "Random Forest (balanced)": {
+      "roc_auc": 0.5911,
+      "pr_auc": 0.0152,
+      "precision": 0.024,
+      "recall": 0.1154,
+      "f1_score": 0.0397,
+      "brier_score": 0.08857,
+      "positive_count": 260,
+      "negative_count": 26242,
+      "confusion_matrix": [
+        [
+          25020,
+          1222
+        ],
+        [
+          230,
+          30
+        ]
+      ]
+    },
+    "Gradient Boosting (HistGB balanced)": {
+      "roc_auc": 0.5857,
+      "pr_auc": 0.0205,
+      "precision": 0.0193,
+      "recall": 0.3154,
+      "f1_score": 0.0364,
+      "brier_score": 0.18406,
+      "positive_count": 260,
+      "negative_count": 26242,
+      "confusion_matrix": [
+        [
+          22080,
+          4162
+        ],
+        [
+          178,
+          82
+        ]
+      ]
+    }
+  }
+}

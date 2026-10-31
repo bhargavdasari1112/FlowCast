@@ -1,0 +1,996 @@
+/* ==========================================================================
+   FLOWCAST AI — Human-Crafted Design System & UI Stylesheet
+   Architecture: Light-First Institutional Enterprise Software (Swiss/Editorial)
+   Palette: Warm off-white (#F5F6F8), crisp white surfaces, deep charcoal text,
+            architectural deep navy accents, subtle neutral borders (#D8DEE4).
+   Zero generic AI gradients, zero neon glows, zero glassmorphism, zero floating cards.
+   ========================================================================== */
+
+:root {
+  /* Color Palette - Light-First Institutional */
+  --bg-app: #F5F6F8;
+  --bg-surface: #FFFFFF;
+  --bg-surface-subtle: #F0F3F6;
+  --bg-surface-elevated: #FFFFFF;
+  --bg-hover: #EBF0F5;
+  --bg-active: #E1E7EE;
+  
+  /* Text & Typography */
+  --text-primary: #1C2430;
+  --text-secondary: #576574;
+  --text-muted: #768390;
+  --text-inverse: #FFFFFF;
+
+  /* Architectural Accents */
+  --accent-navy: #1A365D;
+  --accent-navy-hover: #122846;
+  --accent-blue: #0969DA;
+  --accent-blue-subtle: #DDF4FF;
+  --border-subtle: #D8DEE4;
+  --border-strong: #AFB8C1;
+  --border-focus: #0969DA;
+
+  /* Traffic Semantics (Clean, Engineering-Grade) */
+  --traffic-freeflow: #1A7F37;
+  --traffic-freeflow-bg: #DAFBE8;
+  --traffic-freeflow-border: #4AC26B;
+
+  --traffic-moderate: #9A6700;
+  --traffic-moderate-bg: #FFF8C5;
+  --traffic-moderate-border: #D4A72C;
+
+  --traffic-heavy: #BC4C00;
+  --traffic-heavy-bg: #FFEBE9;
+  --traffic-heavy-border: #FF8182;
+
+  --traffic-severe: #CF222E;
+  --traffic-severe-bg: #FFEBE9;
+  --traffic-severe-border: #FF8182;
+
+  /* Typography */
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: "JetBrains Mono", "SF Mono", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+
+  /* Precision Radii (Sharp, Engineering Radii, No Pillowy Cards) */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+
+  /* Subtle Crisp Elevation Shadows */
+  --shadow-sm: 0 1px 2px rgba(27, 31, 36, 0.04);
+  --shadow-md: 0 3px 6px rgba(27, 31, 36, 0.06);
+}
+
+/* Optional Dark Theme for Control Rooms / Operations Centers */
+[data-theme="dark"] {
+  --bg-app: #0D1117;
+  --bg-surface: #161B22;
+  --bg-surface-subtle: #21262D;
+  --bg-surface-elevated: #161B22;
+  --bg-hover: #30363D;
+  --bg-active: #3C444D;
+  
+  --text-primary: #E6EDF3;
+  --text-secondary: #8B949E;
+  --text-muted: #6E7681;
+  --text-inverse: #0D1117;
+
+  --accent-navy: #58A6FF;
+  --accent-navy-hover: #79C0FF;
+  --accent-blue: #2F81F7;
+  --accent-blue-subtle: #162640;
+  --border-subtle: #30363D;
+  --border-strong: #484F58;
+  --border-focus: #58A6FF;
+
+  --traffic-freeflow: #3FB950;
+  --traffic-freeflow-bg: rgba(63, 185, 80, 0.15);
+  --traffic-freeflow-border: #2EA043;
+
+  --traffic-moderate: #D29922;
+  --traffic-moderate-bg: rgba(210, 153, 34, 0.15);
+  --traffic-moderate-border: #BB8009;
+
+  --traffic-heavy: #DB6D28;
+  --traffic-heavy-bg: rgba(219, 109, 40, 0.15);
+  --traffic-heavy-border: #BD561D;
+
+  --traffic-severe: #F85149;
+  --traffic-severe-bg: rgba(248, 81, 73, 0.15);
+  --traffic-severe-border: #DA3633;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 3px 6px rgba(0, 0, 0, 0.5);
+}
+
+/* --------------------------------------------------------------------------
+   Reset & Global Typography
+   -------------------------------------------------------------------------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background-color: var(--bg-app);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+input, button, select, textarea {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+a {
+  color: var(--accent-blue);
+  text-decoration: none;
+}
+
+/* --------------------------------------------------------------------------
+   Top Operational Control Bar
+   -------------------------------------------------------------------------- */
+.top-control-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 48px;
+  padding: 0 16px;
+  background-color: var(--bg-surface);
+  border-bottom: 1px solid var(--border-subtle);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: var(--shadow-sm);
+}
+
+.brand-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-logo-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background-color: var(--accent-navy);
+  color: #FFFFFF;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 11px;
+  border-radius: var(--radius-xs);
+}
+
+.brand-title-group {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.brand-name {
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+}
+
+.brand-sub {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.brand-status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 8px;
+  background-color: var(--bg-surface-subtle);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xs);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.status-dot-active {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--traffic-freeflow);
+}
+
+/* Control Bar Toolbar Items */
+.toolbar-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.toolbar-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.toolbar-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.input-control {
+  height: 28px;
+  padding: 0 8px;
+  background-color: var(--bg-surface);
+  color: var(--text-primary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xs);
+  font-size: 12px;
+  font-family: var(--font-mono);
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.input-control:focus {
+  border-color: var(--border-focus);
+}
+
+/* Operational Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 10px;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--border-subtle);
+  background-color: var(--bg-surface);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn:hover {
+  background-color: var(--bg-hover);
+  border-color: var(--border-strong);
+}
+
+.btn-primary {
+  background-color: var(--accent-navy);
+  color: #FFFFFF;
+  border-color: var(--accent-navy);
+}
+
+.btn-primary:hover {
+  background-color: var(--accent-navy-hover);
+  border-color: var(--accent-navy-hover);
+  color: #FFFFFF;
+}
+
+.btn.playing {
+  background-color: var(--traffic-moderate-bg);
+  color: var(--traffic-moderate);
+  border-color: var(--traffic-moderate-border);
+}
+
+.clock-display {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+  padding: 4px 8px;
+  background-color: var(--bg-surface-subtle);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xs);
+}
+
+/* --------------------------------------------------------------------------
+   Sub-Navigation Bar (Institutional Tab Strip)
+   -------------------------------------------------------------------------- */
+.nav-tab-strip {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  height: 38px;
+  padding: 0 16px;
+  background-color: var(--bg-surface);
+  border-bottom: 1px solid var(--border-subtle);
+  overflow-x: auto;
+}
+
+.nav-tab-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 38px;
+  padding: 0 12px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.nav-tab-item:hover {
+  color: var(--text-primary);
+}
+
+.nav-tab-item.active {
+  color: var(--accent-navy);
+  font-weight: 600;
+  border-bottom-color: var(--accent-navy);
+}
+
+[data-theme="dark"] .nav-tab-item.active {
+  color: #58A6FF;
+  border-bottom-color: #58A6FF;
+}
+
+.tab-index {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   Main Operations Workspace
+   -------------------------------------------------------------------------- */
+.workspace-container {
+  padding: 14px 16px 24px;
+  max-width: 1720px;
+  margin: 0 auto;
+}
+
+/* Tab Sections */
+.tab-section {
+  display: none;
+}
+
+.tab-section.active {
+  display: block;
+}
+
+/* --------------------------------------------------------------------------
+   Section Header & Institutional Breadcrumb
+   -------------------------------------------------------------------------- */
+.section-meta-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.section-title-group {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.section-main-title {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+}
+
+.section-description {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.section-timestamp-tag {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   Unified KPI Ribbon (Bloomberg / Enterprise Density, No Floating Cards)
+   -------------------------------------------------------------------------- */
+.kpi-ribbon {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xs);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 14px;
+}
+
+.kpi-cell {
+  padding: 10px 12px;
+  border-right: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.kpi-cell:last-child {
+  border-right: none;
+}
+
+.kpi-cell-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 4px;
+}
+
+.kpi-cell-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  letter-spacing: 0.03em;
+}
+
+.kpi-cell-value-row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.kpi-cell-value {
+  font-size: 18px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+.kpi-cell-unit {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.kpi-cell-sub {
+  margin-top: 4px;
+  font-size: 11px;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.delta-badge {
+  display: inline-block;
+  padding: 1px 4px;
+  font-size: 10px;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  border-radius: var(--radius-xs);
+}
+
+.delta-down {
+  background-color: var(--traffic-freeflow-bg);
+  color: var(--traffic-freeflow);
+}
+
+.delta-up {
+  background-color: var(--traffic-heavy-bg);
+  color: var(--traffic-heavy);
+}
+
+.delta-neutral {
+  background-color: var(--bg-surface-subtle);
+  color: var(--text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   Structured Panels & Data Containers (Clean Flat Engineering Surfaces)
+   -------------------------------------------------------------------------- */
+.panel {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xs);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 14px;
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background-color: var(--bg-surface-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.panel-title {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-primary);
+}
+
+.panel-body {
+  padding: 12px;
+}
+
+/* Grid Layout Systems */
+.grid-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.grid-3col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.grid-workstation {
+  display: grid;
+  grid-template-columns: 68% 32%;
+  gap: 14px;
+}
+
+/* --------------------------------------------------------------------------
+   GIS Tactical Map Component
+   -------------------------------------------------------------------------- */
+.gis-map-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 520px;
+  background-color: #E8ECEF;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xs);
+  overflow: hidden;
+}
+
+[data-theme="dark"] .gis-map-wrapper {
+  background-color: #0F141C;
+}
+
+.gis-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.gis-hud-toolbar {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: rgba(255, 255, 255, 0.95);
+  padding: 4px 8px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xs);
+  box-shadow: var(--shadow-sm);
+  z-index: 10;
+}
+
+[data-theme="dark"] .gis-hud-toolbar {
+  background-color: rgba(22, 27, 34, 0.95);
+}
+
+.layer-btn-group {
+  display: flex;
+  gap: 2px;
+}
+
+.layer-btn {
+  height: 24px;
+  padding: 0 8px;
+  font-size: 11px;
+  font-weight: 500;
+  background-color: transparent;
+  color: var(--text-secondary);
+  border: 1px solid transparent;
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+}
+
+.layer-btn:hover {
+  background-color: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.layer-btn.active {
+  background-color: var(--bg-active);
+  color: var(--accent-navy);
+  font-weight: 600;
+  border-color: var(--border-subtle);
+}
+
+[data-theme="dark"] .layer-btn.active {
+  color: #58A6FF;
+}
+
+.gis-hud-controls {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  z-index: 10;
+}
+
+.map-ctrl-btn {
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  font-size: 13px;
+  font-weight: 700;
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+}
+
+.map-ctrl-btn:hover {
+  background-color: var(--bg-hover);
+}
+
+/* Map Legend */
+.gis-legend {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 4px 10px;
+  background-color: rgba(255, 255, 255, 0.94);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xs);
+  font-size: 11px;
+  color: var(--text-secondary);
+  z-index: 10;
+}
+
+[data-theme="dark"] .gis-legend {
+  background-color: rgba(22, 27, 34, 0.94);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.legend-bar {
+  width: 12px;
+  height: 4px;
+  border-radius: 1px;
+}
+
+/* Map Inspector Drawer (Docks over map) */
+.gis-inspector-drawer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 320px;
+  background-color: var(--bg-surface);
+  border-left: 1px solid var(--border-subtle);
+  padding: 14px;
+  transform: translateX(100%);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow-y: auto;
+  z-index: 20;
+  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.05);
+}
+
+.gis-inspector-drawer.open {
+  transform: translateX(0);
+}
+
+.drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.drawer-close-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 16px;
+  cursor: pointer;
+  padding: 2px 6px;
+}
+
+.drawer-close-btn:hover {
+  color: var(--text-primary);
+}
+
+/* --------------------------------------------------------------------------
+   Institutional Data Tables (Clean Swiss/Bloomberg Layout)
+   -------------------------------------------------------------------------- */
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xs);
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  text-align: left;
+}
+
+.data-table th {
+  padding: 8px 10px;
+  background-color: var(--bg-surface-subtle);
+  color: var(--text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.03em;
+  border-bottom: 1px solid var(--border-subtle);
+  white-space: nowrap;
+}
+
+.data-table td {
+  padding: 7px 10px;
+  border-bottom: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+}
+
+.data-table tr:last-child td {
+  border-bottom: none;
+}
+
+.data-table tr:hover td {
+  background-color: var(--bg-hover);
+}
+
+.data-table .num-cell {
+  text-align: right;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* --------------------------------------------------------------------------
+   Status Badges & Semantic Indicator Pills
+   -------------------------------------------------------------------------- */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 6px;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: var(--radius-xs);
+  text-transform: capitalize;
+}
+
+.status-freeflow {
+  background-color: var(--traffic-freeflow-bg);
+  color: var(--traffic-freeflow);
+  border: 1px solid var(--traffic-freeflow-border);
+}
+
+.status-moderate {
+  background-color: var(--traffic-moderate-bg);
+  color: var(--traffic-moderate);
+  border: 1px solid var(--traffic-moderate-border);
+}
+
+.status-heavy {
+  background-color: var(--traffic-heavy-bg);
+  color: var(--traffic-heavy);
+  border: 1px solid var(--traffic-heavy-border);
+}
+
+.status-severe {
+  background-color: var(--traffic-severe-bg);
+  color: var(--traffic-severe);
+  border: 1px solid var(--traffic-severe-border);
+}
+
+/* --------------------------------------------------------------------------
+   Bottleneck Leaderboard (Flat, High-Density Progress Rows)
+   -------------------------------------------------------------------------- */
+.bottleneck-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border-subtle);
+  cursor: pointer;
+}
+
+.bottleneck-row:last-child {
+  border-bottom: none;
+}
+
+.bottleneck-row:hover {
+  background-color: var(--bg-hover);
+}
+
+.bottleneck-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.bottleneck-name {
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--text-primary);
+}
+
+.bottleneck-sub {
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+}
+
+.meter-track {
+  width: 90px;
+  height: 6px;
+  background-color: var(--bg-surface-subtle);
+  border: 1px solid var(--border-subtle);
+  border-radius: 1px;
+  overflow: hidden;
+}
+
+.meter-fill {
+  height: 100%;
+  border-radius: 1px;
+}
+
+/* --------------------------------------------------------------------------
+   Advisory Notice & Disclaimer Boxes
+   -------------------------------------------------------------------------- */
+.notice-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 14px;
+  background-color: var(--bg-surface-subtle);
+  border: 1px solid var(--border-subtle);
+  border-left: 3px solid var(--accent-navy);
+  border-radius: var(--radius-xs);
+  margin-bottom: 14px;
+}
+
+.notice-warning {
+  border-left-color: var(--traffic-moderate);
+  background-color: var(--traffic-moderate-bg);
+}
+
+.notice-title {
+  font-weight: 700;
+  font-size: 12px;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+
+.notice-body {
+  font-size: 11px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+/* --------------------------------------------------------------------------
+   Confusion Matrix & Canvas Visualizations
+   -------------------------------------------------------------------------- */
+.canvas-holder {
+  width: 100%;
+  height: 240px;
+  position: relative;
+}
+
+.cm-matrix-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+  margin-top: 10px;
+}
+
+.cm-cell {
+  padding: 8px;
+  text-align: center;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--border-subtle);
+  background-color: var(--bg-surface-subtle);
+}
+
+.cm-cell-val {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.cm-cell-label {
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   Responsive Layout (Desktop, Tablet, Mobile)
+   -------------------------------------------------------------------------- */
+@media (max-width: 1200px) {
+  .kpi-ribbon {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .kpi-cell:nth-child(4n) {
+    border-right: none;
+  }
+  .grid-workstation {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .top-control-bar {
+    height: auto;
+    padding: 8px 12px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .nav-tab-strip {
+    padding: 0 8px;
+  }
+  .kpi-ribbon {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .kpi-cell:nth-child(2n) {
+    border-right: none;
+  }
+  .grid-2col, .grid-3col {
+    grid-template-columns: 1fr;
+  }
+  .gis-map-wrapper {
+    height: 380px;
+  }
+}
+
+/* Print Styles for PDF Export */
+@media print {
+  .top-control-bar, .nav-tab-strip, .gis-hud-toolbar, .gis-hud-controls {
+    display: none !important;
+  }
+  body, .workspace-container {
+    background-color: #FFFFFF !important;
+    color: #000000 !important;
+    padding: 0 !important;
+  }
+  .panel, .table-wrapper {
+    border: 1px solid #999 !important;
+    box-shadow: none !important;
+    break-inside: avoid;
+  }
+}

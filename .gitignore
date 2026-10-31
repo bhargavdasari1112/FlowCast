@@ -1,0 +1,44 @@
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyd
+
+# Virtual Environments
+venv/
+env/
+ENV/
+.venv/
+env.bak/
+venv.bak/
+
+# Environment Variables, Secrets & Credentials
+.env
+.env.*
+*.env
+*.pem
+*.key
+*.cert
+credentials.json
+secrets.json
+
+# IDE and OS files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+ehthumbs.db
+
+# Windows Executable Binaries accidentally generated in workspace
+powershell.exe
+*.exe
+
+# Log files and temporary files
+*.log
+*.tmp
+*.bak
+temp/
+tmp/

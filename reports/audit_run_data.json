@@ -1,0 +1,148 @@
+{
+  "success": true,
+  "apiResults": [
+    {
+      "name": "Health Check",
+      "url": "http://127.0.0.1:8000/api/health",
+      "status": 200,
+      "pass": true
+    },
+    {
+      "name": "Overview Data",
+      "url": "http://127.0.0.1:8000/api/overview?timestamp=2025-05-20T08:30:00",
+      "status": 200,
+      "pass": true
+    },
+    {
+      "name": "Traffic Forecast",
+      "url": "http://127.0.0.1:8000/api/traffic/forecast?timestamp=2025-05-20T08:30:00",
+      "status": 200,
+      "pass": true
+    },
+    {
+      "name": "Congestion Matrix",
+      "url": "http://127.0.0.1:8000/api/congestion?timestamp=2025-05-20T08:30:00",
+      "status": 200,
+      "pass": true
+    },
+    {
+      "name": "Travel Time Predictions",
+      "url": "http://127.0.0.1:8000/api/travel-time?timestamp=2025-05-20T08:30:00",
+      "status": 200,
+      "pass": true
+    },
+    {
+      "name": "Accident Risk",
+      "url": "http://127.0.0.1:8000/api/accident-risk?timestamp=2025-05-20T08:30:00&threshold=0.01",
+      "status": 200,
+      "pass": true
+    },
+    {
+      "name": "GIS Road Network (25 Segments)",
+      "url": "http://127.0.0.1:8000/api/roads?timestamp=2025-05-20T08:30:00",
+      "status": 200,
+      "pass": true
+    },
+    {
+      "name": "Model Performance Benchmarks",
+      "url": "http://127.0.0.1:8000/api/model-performance",
+      "status": 200,
+      "pass": true
+    },
+    {
+      "name": "Historical Archive",
+      "url": "http://127.0.0.1:8000/api/historical?date=2025-05-20&time=08:30&limit=25",
+      "status": 200,
+      "pass": true
+    }
+  ],
+  "overviewMap": {
+    "canvasFound": true,
+    "parentContainerId": "map-container",
+    "cssWidth": 1049.265625,
+    "cssHeight": 520,
+    "pixelWidth": 1049,
+    "pixelHeight": 520,
+    "nonZeroPixels": 30205,
+    "roadCount": 25,
+    "activeLayer": "CONGESTION",
+    "selectedRoadId": "NL-001"
+  },
+  "dedicatedMap": {
+    "canvasFound": true,
+    "parentContainerId": "map-dedicated-container",
+    "isInsideDedicatedContainer": true,
+    "cssWidth": 1544,
+    "cssHeight": 620,
+    "nonZeroPixels": 39810,
+    "strokeColorPixels": 29616,
+    "roadCount": 25,
+    "arterialLinksDrawn": 28,
+    "activeLayer": "CONGESTION",
+    "selectedRoadId": "NL-001"
+  },
+  "controls": {
+    "speedLayerActive": true,
+    "volLayerActive": true,
+    "accLayerActive": true,
+    "congLayerActive": true,
+    "zoomInWorked": true,
+    "zoomOutWorked": true,
+    "resetZoomWorked": true,
+    "searchFilterSelectedRoad": true,
+    "directSelectionWorked": true,
+    "drawerOpened": true,
+    "drawerHasRoadTelemetry": true,
+    "drawerClosed": true
+  },
+  "forecast": {
+    "initialRows": 25,
+    "filterOptionsCount": 26,
+    "filterChanged": true,
+    "hasCanvas": true,
+    "canvasPixels": true
+  },
+  "congestion": {
+    "rows": 25,
+    "hasCanvas": true,
+    "canvasRendered": true
+  },
+  "travelTime": {
+    "hasCanvas": true,
+    "all25RoadsPlotted": true,
+    "tableRows": 25,
+    "avgCurrent": "9.7 min",
+    "avgPredicted": "8.8 min"
+  },
+  "accident": {
+    "initialRows": 25,
+    "sliderMoved": true,
+    "sliderValDisplay": "1.5%"
+  },
+  "performance": {
+    "confusionMatrixRendered": true,
+    "featureImportanceVisible": true
+  },
+  "historical": {
+    "queryButtonClicked": true,
+    "recordsLoaded": 23,
+    "hasCsvButton": true,
+    "csvExportTriggered": true,
+    "hasPdfButton": true,
+    "pdfExportTriggered": true
+  },
+  "globalControls": {
+    "replayStarted": true,
+    "replayPaused": true,
+    "themeToggled": true,
+    "presetClicked": true
+  },
+  "mapReturn": {
+    "canvasVisible": true,
+    "nonZeroPixels": 39912,
+    "mapRemainsFullyRendered": true
+  },
+  "runtimeExceptions": [],
+  "consoleErrors": [],
+  "networkErrors": []
+}
